@@ -22,9 +22,11 @@ The default theme (used on this page) is heavily inspired by the @href('https://
 This theme uses three open source fonts:
 
 [
-	{The main body text is Google's @href('https://fonts.google.com/specimen/Roboto') {Roboto},},
+	{The main body text is Google's @href('https://fonts.google.com/specimen/Roboto') {Roboto}.},
 	{The monospace font `Iosevka Papyri` is a custom build of @href('https://be5invis.github.io/Iosevka/') {Iosevka}.}
 	@footnote{Specifically, it is built using the `term` option to disable ligatures, and the character variants `cv01`, `cv04`, `cv08`, `cv12`, `cv14`, `cv17`, `cv19`, `cv25`, `cv36`, `cv39`, `cv43`, `cv44`, `cv47`, `cv49`, `cv51` and `cv52`.},
 	{The left-margin icons are from the @href('https://fontawesome.com/free') {Font Awesome Free} project.},
 ]
+
+Syntax highlighting in Papyri uses lexers from the @href('http://pygments.org') {Pygments} libary.
 
