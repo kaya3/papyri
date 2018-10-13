@@ -1,0 +1,30 @@
+@title{Papyri}
+
+Papyri is a programmable markup language, which can be compiled to HTML.
+
+Papyri has a minimal syntax for common inline and block-level elements, and is particularly suitable for mixing text with source code and code listings.
+Documents written in Papyri are also fully programmable, as the language allows user-defined functions in @href('https://www.python.org/') {Python 3}.
+
+You can @href('index.papyri') {click here to see the Papyri source for this page} as an example.
+
+@info {
+	The Papyri language and standard library is not yet stable enough for public release.
+	When ready, the compiler will be published under an open-source license.
+}
+
+
+
+@subtitle{Credits}
+
+Papyri is developed by @href('https://andrewkay.name') {Andrew Kay}.
+
+The default theme (used on this page) is heavily inspired by the @href('https://github.com/syndicatefx/nibbleblog-themes') {'Echo' theme for Nibbleblog}, by Paulo Nunes.
+This theme uses three open source fonts:
+
+[
+	{The main body text is Google's @href('https://fonts.google.com/specimen/Roboto') {Roboto},},
+	{The monospace font `Iosevka Papyri` is a custom build of @href('https://be5invis.github.io/Iosevka/') {Iosevka}.}
+	@footnote{Specifically, it is built using the `term` option to disable ligatures, and the character variants `cv01`, `cv04`, `cv08`, `cv12`, `cv14`, `cv17`, `cv19`, `cv25`, `cv36`, `cv39`, `cv43`, `cv44`, `cv47`, `cv49`, `cv51` and `cv52`.},
+	{The left-margin icons are from the @href('https://fontawesome.com/free') {Font Awesome Free} project.},
+]
+
