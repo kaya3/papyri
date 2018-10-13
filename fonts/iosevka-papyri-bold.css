@@ -1,0 +1,19 @@
+@font-face {
+	font-family: 'Iosevka Papyri';
+	font-weight: 700;
+	font-style: normal;
+	src: local('Iosevka Papyri Bold'),
+		url('woff2/iosevka-papyri-bold.woff2') format('woff2'),
+		url('woff/iosevka-papyri-bold.woff') format('woff'),
+		url('ttf/iosevka-papyri-bold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Iosevka Papyri';
+	font-weight: 700;
+	font-style: italic;
+	src: local('Iosevka Papyri Bold Italic'),
+		url('woff2/iosevka-papyri-bolditalic.woff2') format('woff2'),
+		url('iosevka-papyri-bolditalic.woff') format('woff'),
+		url('ttf/iosevka-papyri-bolditalic.ttf') format('truetype');
+}
