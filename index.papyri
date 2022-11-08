@@ -1,16 +1,25 @@
 @fn fa_icon($_icon: str) $_: none -> {
-	<a class="anchor"><span class="anchor-root"><span class="anchor-icon"><i class="fas $_icon"></i></span></span></a>
+    <a class="anchor">
+        <span class="anchor-root">
+            <span class="anchor-icon"><i class="fas $_icon"/></span>
+        </span>
+    </a>
 }
 
 @let(old_code_block=$code_block).
 @fn code_block $v: str -> {
-	@fa_icon(`fa-code`).
-	@old_code_block $v
+    @fa_icon(`fa-code`).
+    @old_code_block $v
+}
+
+@fn shell $v: str -> {
+    @fa_icon(`fa-terminal`).
+    @old_code_block $v
 }
 
 @fn info $v: html -> {
-	@fa_icon(`fa-info-circle`).
-	<div class="info panel">$v</div>
+    @fa_icon(`fa-info-circle`).
+    <div class="info panel">$v</div>
 }
 
 @export(title={Papyri: a programmable markup language}).
@@ -18,44 +27,72 @@
 
 Papyri is a programmable markup language, which can be compiled to HTML.
 
-Papyri has a minimal syntax for common inline and block-level elements, and is particularly suitable for mixing text with source code and code listings.
-Documents written in Papyri are also programmable, as the language allows user-defined functions:
+Papyri has a minimal syntax for common inline and block-level elements, and is particularly suitable
+for mixing text with source code and code listings. Documents written in Papyri are also programmable,
+as the language allows user-defined functions:
 
 ```
-@fn greet($class?: str) $name: str -> {
-	<span class?=$class>Hello, @bold $name!</span>
-}
+    @fn greet($class?: str) $name: str -> {
+        <span class?=$class>Hello, @bold $name!</span>
+    }
 
-@greet World
+    @greet World
 ```
 
-You can @href(`index.papyri`) {click here to see the Papyri source for this page} for a more substantial example.
+You can @href(`https://github.com/kaya3/papyri/blob/master/index.papyri`)
+{click here to see the Papyri source for this page} for a more substantial
+example.
 
 
 @h2 {Get Papyri}
 
-The @href(`https://github.com/kaya3/papyri-rs`) {@b {papyri-rs} project on GitHub} provides a compiler for Papyri, written in @href(`https://www.rust-lang.org/`) {Rust}.
+The @href(`https://github.com/kaya3/papyri-rs`) {@b {papyri-rs} project on GitHub} provides a compiler
+for Papyri, written in @href(`https://www.rust-lang.org/`) Rust. There is no stable release yet, but
+if you have Rust then you can install the compiler with the following commands:
+
+@shell ```
+    git clone https://github.com/kaya3/papyri-rs.git
+    cargo install --path papyri-rs
+```
+
+Then, use the command `papyri filename.papyri` to compile a Papyri source file, or `papyri --help` to
+see the command-line options.
 
 @info {
-	The Papyri language and standard library are currently unstable.
-	There are likely to be breaking changes in the syntax and semantics of the language, informed by usage, as development continues.
-	
-	If you do try it out and have ideas for improvements to the Papyri language or standard library, feel free to suggest these in the @href(`https://github.com/kaya3/papyri/discussions`) {discussion forum}.
+    The Papyri language and standard library are currently unstable.
+    There are likely to be breaking changes in the syntax and semantics of the language, informed by
+    usage, as development continues.
+    
+    If you do try it out and have ideas for improvements to the Papyri language or standard library,
+    feel free to suggest these in the @href(`https://github.com/kaya3/papyri/discussions`) {discussion
+    forum}.
 }
 
 
 @h2 {Credits}
 
-Papyri is developed by @href(`https://andrewkay.name`) {Andrew Kay}.
+@let(
+    url_me          = `https://andrewkay.name`,
+    url_nibbleblog  = `https://github.com/syndicatefx/nibbleblog-themes`,
+    url_paulo_nunes = `https://syndicatefx.com/`,
+    url_roboto      = `https://fonts.google.com/specimen/Roboto`,
+    url_iosevka     = `https://be5invis.github.io/Iosevka/`,
+    url_fontawesome = `https://fontawesome.com/free`,
+    url_syntect     = `https://github.com/trishume/syntect`,
+).
 
-The default theme (used on this page) is heavily inspired by the @href(`https://github.com/syndicatefx/nibbleblog-themes`) {'Echo' theme for Nibbleblog}, by @href(`https://syndicatefx.com/`) {Paulo Nunes}.
-This theme uses three open source fonts:
+Papyri is developed by @href($url_me) {Andrew Kay}.
+
+The default theme (used on this page) is heavily inspired by the @href($url_nibbleblog) {'Echo' theme
+for Nibbleblog}, by @href($url_paulo_nunes) {Paulo Nunes}. This theme uses three open source fonts:
 
 [
-	{The main body text is Google's @href(`https://fonts.google.com/specimen/Roboto`) {Roboto}.},
-	{The monospace font `Iosevka Papyri` is a custom build of @href(`https://be5invis.github.io/Iosevka/`) {Iosevka}.#
-	@footnote{Specifically, it is built using the `term` option to disable ligatures, and the character variants `cv01`, `cv04`, `cv08`, `cv12`, `cv14`, `cv17`, `cv19`, `cv25`, `cv36`, `cv39`, `cv43`, `cv44`, `cv47`, `cv49`, `cv51` and `cv52`.}},
-	{The left-margin icons are from the @href(`https://fontawesome.com/free`) {Font Awesome Free} project.},
+    {The main body text is Google's @href($url_roboto) Roboto.},
+    {The monospace font `Iosevka Papyri` is a custom build of @href($url_iosevka) Iosevka.#
+    @footnote {Specifically, it is built using the `term` option to disable ligatures, and the
+    character variants `cv01`, `cv04`, `cv08`, `cv12`, `cv14`, `cv17`, `cv19`, `cv25`, `cv36`,
+    `cv39`, `cv43`, `cv44`, `cv47`, `cv49`, `cv51` and `cv52`.}},
+    {The left-margin icons are from the @href($url_fontawesome) {Font Awesome Free} project.},
 ]
 
-The @b {papyri-rs} compiler uses the @href(`https://github.com/trishume/syntect`) {syntect} libary for syntax highlighting.
+The @b {papyri-rs} compiler uses the @href($url_syntect) syntect libary for syntax highlighting.
