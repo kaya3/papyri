@@ -1,0 +1,35 @@
+@fn fa_icon($_icon: str) $_: none -> {
+    <a class="anchor">
+        <span class="anchor-root">
+            <span class="anchor-icon"><i class="fas $_icon"/></span>
+        </span>
+    </a>
+}
+
+@let(old_code=$code, old_code_block=$code_block).
+
+@fn code $v: str -> {
+    @old_code(language=`papyri`) $v
+}
+
+@fn code_block $v: str -> {
+    @fa_icon(`fa-code`).
+    @old_code_block(language=`papyri`) $v
+}
+
+@fn shell $v: str -> {
+    @fa_icon(`fa-terminal`).
+    @old_code_block $v
+}
+
+@fn info $v: html -> {
+    @fa_icon(`fa-info-circle`).
+    <div class="info panel">$v</div>
+}
+
+@export(
+    code=$code,
+    code_block=$code_block,
+    shell=$shell,
+    info=$info,
+).

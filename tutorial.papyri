@@ -1,0 +1,671 @@
+@include `defs`
+
+@export(title={Papyri: a programmable markup language}).
+@h1 {Papyri Tutorial}
+
+@href(`index.html`) Papyri is a programmable markup language. Being a "markup" language means that
+you can write your content mostly as normal, and you only need to use Papyri's syntax when you want
+to "mark up" things that should be presented differently.
+
+Papyri compiles to HTML, and almost all HTML syntax is also valid in Papyri:
+
+```
+You <em>can</em> write Papyri like this, but HTML is a bit clunky.
+```
+
+However, it's much more convenient when writing Papyri to use @b functions to mark up your content:
+
+```
+It's better to write Papyri like @emph this, instead.
+```
+
+
+@h2 {Functions}
+
+Here are a few built-in functions:
+
+[
+    {`@b` or `@bold`: bold text.#
+        @footnote {These wrap inline content in a `<b>` or `<strong>` tag respectively.}},
+    {`@i` or `@emph`: italic text.#
+        @footnote {These wrap inline content in an `<i>` or `<em>` tag respectively.}},
+    {`@underline`: take a wild guess.},
+    {`@h1` through `@h6`: headings.},
+]
+
+These functions apply simply to the next thing you write after the function name. If you want to
+apply a function to more than one word, you can use @b braces to group multiple words together:
+
+```
+For example, with no braces only @emph one word is emphasised, but you can use
+braces to emphasise @emph {multiple words} like this.
+```
+
+The item which the function applies to is called its @b contents. The contents of a function may be
+the result of another function:
+
+```
+If you absolutely @underline @b must stress something...
+```
+
+Braces are also needed if a word contains things that aren't letters in the Latin alphabet, such as
+apostrophes, hyphens, or accents. You can group anything else, too, including other functions:
+
+```
+@h1 {A @i {top-level heading} with nested markup}
+```
+
+
+@h2 {Arguments}
+
+Some functions accept more arguments than just their "contents". For example, here's how you can
+write a link in Papyri:
+
+```
+@href(`https://kaya3.github.io/papyri/tutorial.html`) {Click here!}
+```
+
+Arguments to a function are written in parentheses. In this case, the `@href` function has one
+argument: the link URL, a string literal written in backticks (the `` ` `` symbol).
+
+Some functions have @b {named arguments}:
+
+```
+@image(alt=`Initech corporate logo`) `resources/logo.png`
+```
+
+For the `@image` function, both the `alt` argument and the contents are strings. Simple string values
+can also be written without backticks:
+
+```
+@image(alt=Logo) `resources/logo.png`
+```
+
+Here, the string `Logo` is a single word, so it doesn't need backticks to count as a string.
+Still, it's recommended to use backticks for a string value, as this is more explicit.
+
+
+@h2 {Variables}
+
+You can declare variables using the special `@let` function. `@let` takes any number of named
+arguments, which become variables you can refer to as `$var_name`. The `@let` function doesn't take
+any contents, so we write a `.` for its contents.
+
+```
+@let(position={Director of Redundancies Director}, company={Initech}).
+
+Please submit your TPS reports to the $position at $company.
+```
+
+Variables can appear within text, or can also be used as function arguments, including the "contents"
+argument:
+
+```
+@let(url=`../index.html`, link_text={Back to the home page}).
+
+@href($url) $link_text
+```
+
+
+@h2 {String Templates}
+
+Additionally, string variables can be used in @b {string templates}, to build a string value out of
+fixed and variable parts:
+
+```
+@image(alt="$company corporate logo") `resources/logo.png`
+```
+
+String templates can also be used directly in HTML tags:
+
+```
+@let(panel_kind=`info`).
+
+<div class="panel $panel_kind">
+    You may find this information useful.
+</div>
+```
+
+String templates are delimited either by single-quotes `'`, or double-quotes `"`. It's recommended to
+only use single-quotes if you want to build a string containing double-quote characters; for a string
+containing both kinds of quotes, you can use the escape sequences `\"` or `\'`.
+
+In case you need to join variables together with literal text that looks like part of a variable name,
+you must use braces to disambiguate:
+
+```
+<div class="{$panel_kind}_panel"> ... </div>
+```
+
+
+@h2 {More Formatting}
+
+Besides functions, there are a few other bits of Papyri syntax which can be used to format content in
+particular ways. The most basic of these is a paragraph break, which is achieved just by writing a
+blank line:
+
+```
+This content has two paragraphs.
+
+They get split apart because of the blank line in between.
+```
+
+Bulleted lists can be written using square brackets: the list items will normally need to be contained
+in braces, and they must have commas between them.
+
+```
+Items on the menu include:
+[
+    {Spam},
+    {Spam and eggs},
+    {Eggs and spam},
+]
+```
+
+For numbered lists, simply use the built-in `@numbered` function:
+
+```
+@numbered [
+    {Acquire underpants},
+    {???},
+    {Profit},
+]
+```
+
+
+
+@h2 {Code Formatting}
+
+Papyri makes it easy for documents to include properly-formatted source code. The `@code` and
+`@code_block` functions format inline code and code listings respectively; however, you normally don't
+need to explicitly call these functions, because when you write a string literal with backticks `` ` ``
+anywhere that text is expected, these functions are automatically called. For example:
+
+````
+This paragraph is text, but `this part` is formatted as inline code. There is
+also a block-level code listing below it:
+
+```
+    This part is a code listing, because it has three backticks instead of one.
+    The indentation will be stripped automatically, based on how the first
+    non-empty line is indented.
+```
+````
+
+For syntax highlighting, put the following line#
+    @footnote {`@implicit` is like `@let`, except it also allows the variable to be passed implicitly
+        to the `@code` and `@code_block` functions which know to accept it. Implicit parameters are
+        beyond the scope of this tutorial.}
+somewhere near the start of your Papyri source file, before any of the code you want highlighted, with
+the name of the language the code is written in:
+
+```
+@implicit(language=`papyri`).
+```
+
+For formatting program input or output (as opposed to source code), use the built-in functions `@kbd`
+and `@samp` respectively. These output `<kbd>` and `<samp>` tags instead of `<code>` tags, and do not
+use syntax highlighting.
+
+Papyri allows you to use as many backticks as you want to delimit string literals, so if you need to
+write code which contains backticks `` `like this` ``, you can just use sufficiently wide delimiters,
+@code ``` `` `like this` `` ```. (The surrounding whitespace will be trimmed.)
+
+Three or more backticks make a code listing; if you need that many backticks but you @emph {don't}
+want a block-level listing, you can call `@code` explicitly to make it formatted inline:
+
+````
+Calling `@code` with triple-backticks to format inline code containing
+double-backticks: @code ``` `` `like this` `` ```.
+````
+
+For documents with code in multiple languages, you can also call `@code` or `@code_block` with the
+explicit named `language` argument:
+
+````
+@implicit(language=`python`).
+
+Most of the code in this document, like `[2 * x for x in range(5)]`, is going
+to be written in Python, but the following listing shows how that might be
+written in Java:
+
+@code_block(language=`Java`) ```
+    List<Integer> numbers = new ArrayList<>();
+    for(int x = 0; x < 5; x++) {
+        numbers.add(2 * x);
+    }
+```
+````
+
+
+@h2 {Comments}
+
+Papyri has two kinds of comments:
+
+[
+    {Line comments, beginning with `#` until the end of the line.},
+    {Multiline comments, beginning with `<!--` and ending with `-->`.},
+]
+
+Comments can be used to make remarks about the document, or to temporarily suppress parts of it from
+the output. Comments don't work inside string literals, but the @emph do work inside string templates.
+
+Comments are never preserved in the compiled HTML, even if they are HTML-style multiline comments.
+
+Line comments (those beginning with `#`) also suppress whitespace at the start of the next line. This
+can be useful when you want content written across multiple lines to be compiled without a space being
+inserted in between: for example, when you write a footnote#
+    @footnote {Yes, these aren't really "footnotes", because they appear in the middle of the document
+        instead of in a footer. But this is the web, not a printed document, so we can get away with
+        that by hiding the "footnote" until the user clicks to see it.}
+using the built-in `@footnote` function, it makes sense to put it on a separate line, and write `#` at
+the end of the previous line to prevent a space being inserted before the footnote marker:
+
+```
+This sentence is true.#
+    @footnote {Actually, it's more complicated than that.}
+```
+
+
+
+@h2 {Special Characters}
+
+Nice-looking formatting often requires symbols that you can't easily type on a keyboard, such as
+dashes and fancy quote marks. When writing regular text in Papyri, you can get some of the most
+useful ones by character substitutions:
+
+@let(
+    nbsp_url=`https://en.wikipedia.org/wiki/Non-breaking_space`,
+    word_joiner_url=`https://en.wikipedia.org/wiki/Word_joiner`,
+).
+[
+    {The quote characters `'` and `"` will be converted automatically into "better-looking" Unicode
+        quotes.#
+        @footnote {The Papyri compiler will try to infer whether a quote should face left or right.
+            It usually gets it right, but if you need to override it, you can use braces: `{"}` always
+            makes a left-quote, and `{}"` always makes a right-quote.}},
+    {Two dashes `--` make an en-dash, and three `---` make an em-dash.},
+    {A tilde `~` makes a @href($nbsp_url) {non-breaking space}, and a pipe `|` makes a
+        "@href($word_joiner_url) {word joiner}" --- an invisible character which prevents text from
+        wrapping at that point.},
+    {The arrows `<-`, `->` and `<->` become <-, -> and <->.},
+    {Mathematical symbols: `<=` and `>=` become <= and >=, and `+/-` becomes +/-.},
+    {The copyright symbol (c) is written like `(c)`.},
+]
+
+Some characters like `$`, `@` and braces have special meanings in Papyri, but sometimes you may want to
+write them literally as text. You can do this by escaping them with backslashes: `\$` and `\@` give the
+raw characters, and `\\` gives a raw backslash if you want that. The same works for preventing text
+substitutions: for example, `\~` gives a literal tilde.
+
+Other characters can be written with hexadecimal Unicode escape sequences or HTML entities:
+
+[
+    {`\x61`, `\u0061` and `\U00000061` for two, four or eight hexadecimal digits.},
+    {Named entities such as `&quot;`, decimal entities like `&#97;`, or hexadecimal entities like
+        `&#x61;`.},
+]
+
+Escape sequences and entities don't work inside string literals (with backticks), but they do work in
+string templates.
+
+
+@h2 {Declaring Functions}
+
+So far we've seen that Papyri is a markup language, but here's where we start to see that it's a
+@emph programmable markup language. You can declare your own functions, to mark up your documents in
+customisable ways:
+
+```
+@fn panel($_panel_kind: str) $v -> {
+    <div class="panel $_panel_kind">$v</div>
+}
+```
+
+The `@fn` keyword is used to declare a function. Its parameters are declared inside the parentheses,
+except for the "contents" parameter which is declared afterwards. In this example, there is one
+parameter named `$_panel_kind` which must be of type `str` (i.e. a string), plus the "contents"
+parameter, which is named `$v`. There is no type annotation for `$v`, which is equivalent to a type
+annotation `$v: any` (i.e. any type is allowed). The function body then appears after the arrow, `->`.
+
+Now that the function is declared, it can be called like any other:
+
+```
+@panel(`info`) {
+    You may find this information useful.
+}
+```
+
+In this example, `$_panel_kind` is a positional parameter because its name begins with an underscore.
+If we wrote it as `$panel_kind` then it would be a named parameter, so we would call the function like
+this:
+
+```
+@panel(panel_kind=`info`) { ... }
+```
+
+It's recommended to use named parameters unless it will be obvious from context what the argument is
+for.
+
+
+@h2 {Types}
+
+In the previous section we mentioned two types: `str` and `any`. Papyri has the following primitive
+types:
+
+@let(
+    block_level_url = `https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements`,
+    inline_url = `https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements`,
+).
+[
+    {`any` --- any type of value.},
+    {`html` --- HTML content, including text and tags.},
+    {`block` --- @href($block_level_url) {block-level} HTML content.},
+    {`inline` --- @href($inline_url) inline HTML content.},
+    {`str` --- a string.},
+    {`int` --- an integer, such as `5` or `-23`.#
+        @footnote {Values must be in the signed 64-bit range, -2@sup{63}~<=~@i x~<=~2@sup{63}-1.}},
+    {`bool` --- a Boolean, either `True` or `False`.},
+    {`function` --- a function. Functions in Papyri are first-class values; you can refer to a function
+        `@func_name` (as opposed to calling it) by writing `$func_name` instead.},
+    {`none` --- a null or empty value. This is used for the "contents" parameter of a function with no
+        contents; it can be written as a literal '`.`' or an empty pair of braces `{}`.#
+        @footnote {Note that if you have a variable of type `none` and you try to output it, you won't
+            get a '`.`' character in the output --- you'll get nothing. So '`.`' has a different meaning
+            in text than it has when used as a value.}},
+]
+
+Additionally, there are three kinds of compound type:
+
+[
+    {`T list` --- a list of values, written like `[1, 2, 3]` in square brackets with commas.},
+    {`T dict` --- a dictionary of values, which can be created like `@dict(x=3, y=4).`. The keys in a
+        dictionary are always strings.},
+    {`T?` --- an optional value; either `T` or `none`.#
+        @footnote {This is not a "monadic" optional type --- `T??` is equivalent to `T?`, and `none?`
+            is equivalent to `none`.}},
+]
+
+Here `T` can be any type, primitive or otherwise; so for example, `str list` means a list of strings,
+`int dict` means a dictionary of integers, and `any list?` means an optional list which can contain
+values of any type (and possibly of different types to each other).
+
+Type annotations for parameters are used to check the arguments and @b coerce them to the appropriate
+types, where possible. For example, `int` and `bool` values can be coerced to `str`, and values of any
+type can be coerced to `html`, or to `block` (by wrapping inline content in a `<p>` tag if necessary).
+
+To explicitly convert from one type to another, you can use the `@block`, `@inline`, `@str`, `@int` and
+`@bool` functions, which are built-in. For example, `@str 123` will make the string `` `123` ``, or
+`@block {Foo bar}` will make the HTML tag `<p>Foo bar</p>`. These functions only perform the same
+coercions as are done for any other arguments, so e.g. ``@int `123` `` will not work.
+
+
+@h2 {Optional Parameters and Default Values}
+
+Function parameters can have default values:
+
+```
+@fn greet($greeting: inline = {Hello}) $name: inline -> {
+    $greeting, $name!
+}
+```
+
+This way we can call the function with or without the `greeting` argument:
+
+[
+    {`@greet Alice` --- gives "Hello, Alice!".},
+    {`@greet(greeting={Hi}) Bob` --- gives "Hi, Bob!".},
+]
+
+Note that `greeting` must be passed as a named argument, since its name doesn't begin with an
+underscore. Note also that when calling the function with no argument (other than the "contents"),
+you don't need to write it like `@greet() Alice` with parentheses; that is allowed, but discouraged.
+
+A parameter with a default value is optional; a parameter can also be made optional by
+declaring it with a question mark `?` --- note that this goes before the type annotation, if there is
+one:
+
+```
+@fn say_goodbye($extra?: inline) $v -> {
+    Goodbye, $name! $extra
+}
+```
+
+A parameter made optional this way has a default value of '`.`' (the null/empty value), and its type
+is implicitly an optional type (i.e. `str?` instead of `str`). One way to use parameters like this is
+as optional tag attributes: the syntax `?=` in an HTML tag means the attribute will only be present if
+the value is not null/empty.
+
+```
+@fn filler_text($css_class?: str) $v: inline -> {
+    <span class?=$css_class>
+        Lorem ipsum, dolor sit amet.
+    </span>
+}
+```
+
+A function's "contents" parameter cannot have a default value and cannot be optional. However, you can
+use an optional type like `html?` to allow the function to be called with either some contents like
+`@my_function {Contents...}`, or no contents like `@my_function.`.
+
+
+@h2 {Spreads}
+
+Parameters and arguments can be @b spread. A single asterisk `*` spreads positional arguments, and a
+double asterisk `**` spreads named arguments. These both work when declaring a function and also when
+calling it:
+
+[
+    {`@fn my_function(*$_args) $v -> { ... }` --- this declares a function which accepts any number of
+        positional arguments, which will become a list named `$_args`.},
+    {`@fn my_function(**$args) $v -> { ... }` --- this declares a function which accepts any number of
+        named arguments, which will become a dictionary named `$args`.},
+    {`@my_function(*$args) { ... }` --- this calls the function with positional arguments unpacked from
+        `$args`, which must be a list.},
+    {`@my_function(**$args) { ... }` --- this calls the function with named arguments unpacked from
+        `$args`, which must be a dictionary.},
+]
+
+Spread parameters can also have type declarations; for example, the following function accepts any
+number of positional arguments, but they must all be integers.
+
+```
+@fn my_function(*$_args: int list) $v -> { ... }
+```
+Note that a positional spread parameter must still have a name beginning with an underscore, because
+it's positional.
+
+
+@h2 {Pattern Matching}
+
+Except for function calls, Papyri has only one control flow structure, called `@match`. It can be used
+to create functions which do different things depending on their arguments, and it can also be used to
+extract parts out strings, lists or HTML tags. For example, we can use `@match` to pluralise a word
+depending on a number:
+
+```
+@let($thing={cow}, amount=2).
+
+@match $amount {
+    0 -> {No {$thing}s.},
+    1 -> {One $thing.},
+    _ -> {$amount {$thing}s.},
+}
+```
+
+The match rules must be written inside braces, with commas between them; each rule is a pattern, an
+arrow `->`, and a replacement. The first matching pattern applies; you must ensure that some pattern
+always does apply (the compiler reports a warning if `$amount` doesn't match any of them). In this
+example, the patterns `0` and `1` are integer literals, and the pattern `_` is a "wildcard" which
+always matches.
+
+Other literal values can be used as patterns: integers, strings with backticks, `True` and `False`, and
+'`.`' which matches the the null/empty value. We can also match based on a value's type:
+
+```
+@match $v {
+    _: none -> {Nothing.},
+    _: bool -> {A Boolean.},
+    _: int -> {An integer.},
+    _: string -> {A string.},
+    _: html -> {Some HTML content.},
+}
+```
+
+Things get more interesting when we start matching on @emph parts of a value. For example, here's a
+recursive function which reverses a list:
+
+```
+@fn reverse_list $a: any list -> {
+    @match $a {
+        [] -> [],
+        [$head, *$tail] -> [*@reverse_list($tail), $head],
+    }
+}
+```
+
+The pattern `[]` matches an empty list, for the base case of the recursion. The other pattern matches a
+list with at least one item; the first item will be bound to the variable `$head`, and the spread
+pattern `*$tail` binds the remaining items to the variable `$tail`, as another list.
+
+We can also match on parts of strings, using @b {template patterns}:
+
+```
+@match `Hello, world!` {
+    "Hello, $thing!" -> $thing,
+    _ -> @raise `No greeting found`,
+}
+```
+
+In case the pattern does not match, we can use the built-in `@raise` function to report an error
+message.
+
+Patterns can be combined in nearly arbitrary ways: the example below matches a list with two items, but
+only if the first one is an integer and the second one is a string with a colon in the middle:
+
+```
+@match $v {
+    [$x: int, "$a:$b"] -> {
+        Found an integer $x and two string parts "$a" and "$b".
+    },
+}
+```
+
+
+@h2 {HTML Tag Patterns}
+
+Because values in Papyri can also represent HTML content, we can write patterns which match HTML tags,
+and extract parts of them. Here's an example:
+
+```
+@let(tag=<span id="some_span"> ... </span>).
+
+@match $tag {
+    <span id=$id> _ </span> -> {The id is "$id".},
+    <span> _ </span> -> {No id found.},
+    _ -> @raise `Doesn't seem to be a span tag.`,
+}
+```
+
+The first pattern here matches a `<span>` tag with an `id` attribute, and any contents. The second
+pattern matches a `<span>` tag with no attributes, and any contents. If we wanted these patterns to
+also match tags with other attributes, we could use a spread pattern:
+
+```
+@match $tag {
+    <span id=$id **_> _ </span> -> {The id is "$id".},
+    <span **_> _ </span> -> {No id found.},
+    _ -> @raise `Doesn't seem to be a span tag.`,
+}
+```
+
+Here, the spread pattern is `**_` because we don't care what other attributes the tag has, so we just
+ignore them with the wildcard pattern `_`.
+
+We can get more general than this: it's possible to match @emph {any kind of tag} by matching the tag
+name as a wildcard:
+
+```
+@match $tag {
+    <_ **_> _ </> -> {Some HTML tag, don't know what.},
+    _ -> @raise `Not an HTML tag.`,
+}
+```
+
+This pattern matches a tag of any name with any attributes, and any contents, i.e. it always matches any
+HTML tag. Note that the closing tag must be written as `</>`, with the tag name omitted, since we don't
+know what it is!#
+    @footnote {In this context this syntax is necessary, but the same syntax is also allowed as a
+        shorthand for a closing tag in other contexts. For example, `<blockquote> ... </>` is valid in
+        Papyri. (It would not be valid in pure HTML.)}
+
+If we want to make use of the tag name, attributes and/or contents, we can go further and bind them to
+variables. This allows us to transform tags in arbitrary ways:
+
+```
+@match $tag {
+    <$tag_name **$attrs> $contents </> -> { ... },
+    _ -> @raise `Not an HTML tag.`,
+}
+```
+
+Using the variables captured by the match pattern, we can construct an altered version of the tag. For
+example:
+
+[
+    {`$contents` --- get rid of the tag and its attributes, but keep its contents.},
+    {`<$tag_name **$attrs>Contents replaced.</>` --- replace the contents of the tag with something
+        else.},
+    {`<div id="new_tag" **$attrs>$contents</>` --- change the tag name to `<div>` and give it an `id`
+        attribute, but keep the rest the same.},
+    {``<$tag_name style=`opacity: 0.5;` **$attrs>$contents</>`` --- add a CSS style attribute to the
+        tag, with no other changes.},
+]
+
+In practice, this capability is rarely needed. For many purposes, you can use built-in functions
+instead:
+
+[
+    {``@attributes(id=`new_tag`, hidden=True) $tag`` --- adds attributes to a tag.},
+    {``@class(`new_css_class`) $tag`` --- adds a CSS class to a tag, without removing its existing CSS
+        class if there is one.},
+    {``@style(`opacity: 0.5;`) $tag`` --- adds CSS style to a tag, without removing any style it might
+        already have. (Make sure to include the trailing semicolon.)},
+]
+
+
+@h2 {Imports and Exports}
+
+If you are writing a set of documents, there may be some functions or other declarations which you want
+to reuse across multiple documents. Or, if a single document is quite long you might want to split it
+across several source files while still compiling it to a single HTML file.
+
+Therefore there are the following three built-in functions:
+
+[
+    {`@export(name=$value).` --- exports `$value` with the name `name`.},
+    {``@import `filename` `` --- imports `filename.papyri` as a library, relative to the current file's
+        path. The exports from that file are returned as a dictionary; HTML output from that file, if
+        there is any, is ignored.},
+    {``@include `filename` `` --- includes `filename.papyri`, relative to the current file's path, into
+        the current document; its HTML output is included, and its exports are declared in the current
+        scope.#
+            @footnote {Papyri uses lexical scopes for functions and for replacements in `@match` rules.}},
+]
+
+The `@export` function is also used to pass a page title to the compiler, which will appear in the
+`<title>` tag when the full HTML document is generated:
+
+```
+@export(title={Page title goes here}).
+```
+
+
+@h2 {Conclusion}
+
+That's all for now. There are a few other things, but they aren't that important.
+
+Papyri is still under development, so this tutorial will get updated as new features are added to the
+language. In the meantime, if you want to see more examples of how to write documents in Papyri, the
+@href(`https://github.com/kaya3/papyri/blob/master/tutorial.papyri`) {Papyri source for this page} is a
+good place to look next.

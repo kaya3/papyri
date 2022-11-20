@@ -1,26 +1,4 @@
-@fn fa_icon($_icon: str) $_: none -> {
-    <a class="anchor">
-        <span class="anchor-root">
-            <span class="anchor-icon"><i class="fas $_icon"/></span>
-        </span>
-    </a>
-}
-
-@let(old_code_block=$code_block).
-@fn code_block $v: str -> {
-    @fa_icon(`fa-code`).
-    @old_code_block $v
-}
-
-@fn shell $v: str -> {
-    @fa_icon(`fa-terminal`).
-    @old_code_block $v
-}
-
-@fn info $v: html -> {
-    @fa_icon(`fa-info-circle`).
-    <div class="info panel">$v</div>
-}
+@include `defs`
 
 @export(title={Papyri: a programmable markup language}).
 @h1 {Papyri}
@@ -39,9 +17,8 @@ as the language allows user-defined functions:
     @greet World
 ```
 
-You can @href(`https://github.com/kaya3/papyri/blob/master/index.papyri`)
-{click here to see the Papyri source for this page} for a more substantial
-example.
+You can @href(`https://github.com/kaya3/papyri/blob/master/index.papyri`) {click here to see the Papyri
+source for this page} for a more substantial example, or read the @href(`tutorial.html`) tutorial.
 
 
 @h2 {Get Papyri}
