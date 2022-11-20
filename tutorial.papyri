@@ -229,7 +229,7 @@ Most of the code in this document, like `[2 * x for x in range(5)]`, is going
 to be written in Python, but the following listing shows how that might be
 written in Java:
 
-@code_block(language=`Java`) ```
+@code_block(language=`java`) ```
     List<Integer> numbers = new ArrayList<>();
     for(int x = 0; x < 5; x++) {
         numbers.add(2 * x);
@@ -244,7 +244,7 @@ Papyri has two kinds of comments:
 
 [
     {Line comments, beginning with `#` until the end of the line.},
-    {Multiline comments, beginning with `<!--` and ending with `-->`.},
+    {HTML-style multiline comments, `<!-- ... -->`.},
 ]
 
 Comments can be used to make remarks about the document, or to temporarily suppress parts of it from
@@ -285,6 +285,7 @@ useful ones by character substitutions:
             It usually gets it right, but if you need to override it, you can use braces: `{"}` always
             makes a left-quote, and `{}"` always makes a right-quote.}},
     {Two dashes `--` make an en-dash, and three `---` make an em-dash.},
+    {Three dots `...` become an ellipsis.},
     {A tilde `~` makes a @href($nbsp_url) {non-breaking space}, and a pipe `|` makes a
         "@href($word_joiner_url) {word joiner}" --- an invisible character which prevents text from
         wrapping at that point.},
