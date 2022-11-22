@@ -1,4 +1,5 @@
 @include `defs`
+@implicit(language=`papyri`).
 
 @export(title={Papyri: a programmable markup language}).
 @h1 {Papyri Tutorial}
@@ -267,7 +268,6 @@ This sentence is true.#
 ```
 
 
-
 @h2 {Special Characters}
 
 Nice-looking formatting often requires symbols that you can't easily type on a keyboard, such as
@@ -290,7 +290,7 @@ useful ones by character substitutions:
         "@href($word_joiner_url) {word joiner}" --- an invisible character which prevents text from
         wrapping at that point.},
     {The arrows `<-`, `->` and `<->` become <-, -> and <->.},
-    {Mathematical symbols: `<=` and `>=` become <= and >=, and `+/-` becomes +/-.},
+    {Mathematical symbols: `<=`, `>=` and `!=` become <=, >= and !=, `+/-` becomes +/-.},
     {The copyright symbol (c) is written like `(c)`.},
 ]
 
@@ -559,7 +559,7 @@ Because values in Papyri can also represent HTML content, we can write patterns 
 and extract parts of them. Here's an example:
 
 ```
-@let(tag=<span id="some_span"> ... </span>).
+@let(tag=<span id=`some_span`> ... </span>).
 
 @match $tag {
     <span id=$id> _ </span> -> {The id is "$id".},
@@ -617,7 +617,7 @@ example:
     {`$contents` --- get rid of the tag and its attributes, but keep its contents.},
     {`<$tag_name **$attrs>Contents replaced.</>` --- replace the contents of the tag with something
         else.},
-    {`<div id="new_tag" **$attrs>$contents</>` --- change the tag name to `<div>` and give it an `id`
+    {``<div id=`new_tag` **$attrs>$contents</>`` --- change the tag name to `<div>` and give it an `id`
         attribute, but keep the rest the same.},
     {``<$tag_name style=`opacity: 0.5;` **$attrs>$contents</>`` --- add a CSS style attribute to the
         tag, with no other changes.},

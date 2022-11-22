@@ -4,6 +4,7 @@
  */
 
 @import url('fonts/iosevka-papyri-light.css');
+@import url('fonts/iosevka-papyri-regular.css');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,500,700');
 @import url('https://use.fontawesome.com/releases/v5.0.13/css/all.css');
 
@@ -23,12 +24,15 @@
 	--orange: #d07820;
 	--orange-bg: #f6e5d5;
 	--orange-bg-pale: #faf2e9;
-	--yellow: #d5c85b;
+	--yellow: #a29429;
 	--yellow-bg: #f2eecc;
 	--yellow-bg-pale: #faf8ea;
 	--green: #50a020;
 	--green-bg: #deedd5;
 	--green-bg-pale: #eef6e9;
+	--cyan: #209c85;
+	--cyan-bg: #ccf4ed;
+	--cyan-bg-pale: #e5f9f6;
 	--blue: #2068b0;
 	--blue-bg: #d0e2f6;
 	--blue-bg-pale: #e5f0fa;
@@ -154,14 +158,9 @@ pre.listing, code, samp, kbd {
 	font-family: var(--font-family-mono);
 	font-weight: var(--font-weight-light);
 	line-height: var(--line-height-mono);
-	color: black;
 }
 code, samp, kbd { font-size: var(--font-size-mono); }
 pre.listing, pre.listing code, pre.listing samp, pre.listing kbd { font-size: var(--font-size-mono-listing); }
-kbd:not(.syntax-highlight) {
-	font-style: italic;
-	color: var(--green);
-}
 samp.stdout { color: var(--green); }
 samp.stderr { color: var(--red); }
 code, samp, kbd {
@@ -185,19 +184,27 @@ code, samp, kbd {
 	0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }
 }
 
-.syntax-highlight span.name { color: black; }
-.syntax-highlight span.name-def { color: black; }
+.syntax-highlight span.name { color: var(--grey-1); }
+.syntax-highlight span.name-def { color: var(--purple); }
 .syntax-highlight span.punctuation, .syntax-highlight span.lparen, .syntax-highlight span.rparen, .syntax-highlight span.op, .syntax-highlight span.keyword-op { color: var(--grey-1); }
 .syntax-highlight span.keyword { color: var(--blue); }
 .syntax-highlight span.string { color: var(--green); }
 .syntax-highlight span.number { color: var(--red); }
 .syntax-highlight span.keyword-literal { color: var(--red); }
 .syntax-highlight span.unmatched-paren, .syntax-highlight span.err { background-color: var(--red); color: white; }
-.syntax-highlight span.type-annotation { color: var(--grey-3); }
+.syntax-highlight span.type-annotation { color: var(--cyan); }
 .syntax-highlight span.comment { color: var(--grey-3); font-style: italic; }
 .syntax-highlight a.comment { font-style: italic; }
 .syntax-highlight span.decorator { color: var(--purple); font-style: italic; }
 .syntax-highlight span.lparen.hover-highlight, .syntax-highlight span.rparen.hover-highlight { background-color: var(--blue-bg); }
+
+.syntax-highlight.lang-papyri span.op,
+.syntax-highlight.lang-papyri span.lparen,
+.syntax-highlight.lang-papyri span.rparen,
+.syntax-highlight.lang-papyri span.keyword,
+.syntax-highlight.lang-papyri span.decorator,
+.syntax-highlight.lang-papyri span.name,
+.syntax-highlight.lang-papyri span.name-def { font-weight: var(--font-weight-regular); }
 
 pre.listing .line {
 	position: relative;

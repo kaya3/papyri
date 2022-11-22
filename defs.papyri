@@ -6,15 +6,11 @@
     </a>
 }
 
-@let(old_code=$code, old_code_block=$code_block).
+@let(old_code_block=$code_block).
 
-@fn code $v: str -> {
-    @old_code(language=`papyri`) $v
-}
-
-@fn code_block $v: str -> {
+@fn code_block($language?: implicit str) $v: str -> {
     @fa_icon(`fa-code`).
-    @old_code_block(language=`papyri`) $v
+    @old_code_block(language=$language) $v
 }
 
 @fn shell $v: str -> {
@@ -28,7 +24,6 @@
 }
 
 @export(
-    code=$code,
     code_block=$code_block,
     shell=$shell,
     info=$info,
