@@ -22,23 +22,25 @@ source for this page} for a more substantial example, or read the @href(`tutoria
 
 
 @h2 {Get Papyri}
+@let(
+    rust_lang_url=`https://www.rust-lang.org/`,
+    papyri_rs_url=`https://crates.io/crates/papyri-lang`,
+).
 
-The @href(`https://github.com/kaya3/papyri-rs`) {@b {papyri-rs} project on GitHub} provides a compiler
-for Papyri, written in @href(`https://www.rust-lang.org/`) Rust. There is no stable release yet, but
-if you have Rust then you can install the compiler with the following commands:
+A compiler for the Papyri markup language, written in @href($rust_lang_url) Rust, is available in the
+@href($papyri_rs_url) {@b {papyri-lang} crate}. If you have Rust then you can install the compiler with the
+following command:
 
 @shell ```
-    git clone https://github.com/kaya3/papyri-rs.git
-    cargo install --path papyri-rs
+    cargo install papyri-lang
 ```
 
 Then, use the command @kbd `papyri filename.papyri` to compile a Papyri source file, or @kbd `papyri --help`
 to see the command-line options.
 
 @info {
-    The Papyri language and standard library are currently unstable.
-    There are likely to be breaking changes in the syntax and semantics of the language, informed by
-    usage, as development continues.
+    The Papyri language and standard library are currently unstable. There may be breaking changes in the
+    syntax and semantics of the language, informed by usage, as development continues.
     
     If you do try it out and have ideas for improvements to the Papyri language or standard library,
     feel free to suggest these in the @href(`https://github.com/kaya3/papyri/discussions`) {discussion
