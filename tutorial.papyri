@@ -1,4 +1,4 @@
-@include `defs`
+@include `defs.lib`
 @implicit(language=`papyri`).
 
 @export(title={Papyri: a programmable markup language}).
@@ -485,7 +485,7 @@ extract parts out strings, lists or HTML tags. For example, we can use `@match` 
 depending on a number:
 
 ```
-@let($thing={cow}, amount=2).
+@let(thing={cow}, amount=2).
 
 @match $amount {
     0 -> {No {$thing}s.},

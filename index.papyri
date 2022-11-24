@@ -1,4 +1,4 @@
-@include `defs`
+@include `defs.lib`
 
 @export(title={Papyri: a programmable markup language}).
 @h1 {Papyri}
@@ -13,7 +13,7 @@ as the language allows user-defined functions:
     @fn greet($class?: str) $name: str -> {
         <span class?=$class>Hello, @bold $name!</span>
     }
-
+    
     @greet World
 ```
 
@@ -22,13 +22,15 @@ source for this page} for a more substantial example, or read the @href(`tutoria
 
 
 @h2 {Get Papyri}
+
 @let(
-    rust_lang_url=`https://www.rust-lang.org/`,
-    papyri_rs_url=`https://crates.io/crates/papyri-lang`,
+    url_rust_lang      = `https://www.rust-lang.org/`,
+    url_papyri_rs      = `https://crates.io/crates/papyri-lang`,
+    url_gh_discussions = `https://github.com/kaya3/papyri/discussions`,
 ).
 
-A compiler for the Papyri markup language, written in @href($rust_lang_url) Rust, is available in the
-@href($papyri_rs_url) {@b {papyri-lang} crate}. If you have Rust then you can install the compiler with the
+A compiler for the Papyri markup language, written in @href($url_rust_lang) Rust, is available in the
+@href($url_papyri_rs) {@b {papyri-lang} crate}. If you have Rust then you can install the compiler with the
 following command:
 
 @shell ```
@@ -43,8 +45,7 @@ to see the command-line options.
     syntax and semantics of the language, informed by usage, as development continues.
     
     If you do try it out and have ideas for improvements to the Papyri language or standard library,
-    feel free to suggest these in the @href(`https://github.com/kaya3/papyri/discussions`) {discussion
-    forum}.
+    feel free to suggest these in the @href($url_gh_discussions) {discussion forum}.
 }
 
 
