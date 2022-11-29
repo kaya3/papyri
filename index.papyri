@@ -1,6 +1,6 @@
 @include `defs.lib`
 
-@export(title={Papyri: a programmable markup language}).
+@page(title=`Papyri: a programmable markup language`, web_root=`./`)...
 @h1 {Papyri}
 
 Papyri is a programmable markup language, which can be compiled to HTML.

@@ -1,7 +1,7 @@
 @include `defs.lib`
 @implicit(language=`papyri`).
 
-@export(title={Papyri: a programmable markup language}).
+@page(title=`Papyri: a programmable markup language`, web_root=`./`)...
 @h1 {Papyri Tutorial}
 
 @href(`index.html`) Papyri is a programmable markup language. Being a "markup" language means that
@@ -84,6 +84,26 @@ can also be written without backticks:
 
 Here, the string `Logo` is a single word, so it doesn't need backticks to count as a string.
 Still, it's recommended to use backticks for a string value, as this is more explicit.
+
+
+@h2 {Page Template}
+
+An HTML page needs some structure around the main content --- a doctype, `<html>`, `<head>` and
+`<body>` tags, and a `<title>`, at least. Fortunately, you can wrap your page in this boilerplate
+code using the `@page` function. This function takes a named `title` argument, and the "contents" are
+the page contents:
+
+```
+@page(title=`A Very Interesting Page`)...
+
+If there was anything here, then this page would be very interesting.
+```
+
+The `@page` function builds a page using the default Papyri theme, which is the one you see on this
+page.
+
+This example introduces another piece of syntax: when used for a function's "contents", an ellipsis
+`...` means the remainder of the document (or the remainder of the current group or HTML tag).
 
 
 @h2 {Variables}
@@ -617,9 +637,9 @@ example:
     {`$contents` --- get rid of the tag and its attributes, but keep its contents.},
     {`<$tag_name **$attrs>Contents replaced.</>` --- replace the contents of the tag with something
         else.},
-    {``<div id=`new_tag` **$attrs>$contents</>`` --- change the tag name to `<div>` and give it an `id`
+    {``<div **$attrs id=`new_tag`>$contents</>`` --- change the tag name to `<div>` and give it an `id`
         attribute, but keep the rest the same.},
-    {``<$tag_name style=`opacity: 0.5;` **$attrs>$contents</>`` --- add a CSS style attribute to the
+    {``<$tag_name **$attrs style=`opacity: 0.5;`>$contents</>`` --- add a CSS style attribute to the
         tag, with no other changes.},
 ]
 
@@ -653,13 +673,6 @@ Therefore there are the following three built-in functions:
         scope.#
             @footnote {Papyri uses lexical scopes for functions and for replacements in `@match` rules.}},
 ]
-
-The `@export` function is also used to pass a page title to the compiler, which will appear in the
-`<title>` tag when the full HTML document is generated:
-
-```
-@export(title={Page title goes here}).
-```
 
 
 @h2 {Conclusion}
