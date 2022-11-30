@@ -582,8 +582,8 @@ and extract parts of them. Here's an example:
 @let(tag=<span id=`some_span`> ... </span>).
 
 @match $tag {
-    <span id=$id> _ </span> -> {The id is "$id".},
-    <span> _ </span> -> {No id found.},
+    <span id=$id> *_ </span> -> {The id is "$id".},
+    <span> *_ </span> -> {No id found.},
     _ -> @raise `Doesn't seem to be a span tag.`,
 }
 ```
@@ -594,21 +594,21 @@ also match tags with other attributes, we could use a spread pattern:
 
 ```
 @match $tag {
-    <span id=$id **_> _ </span> -> {The id is "$id".},
-    <span **_> _ </span> -> {No id found.},
+    <span id=$id **_> *_ </span> -> {The id is "$id".},
+    <span **_> *_ </span> -> {No id found.},
     _ -> @raise `Doesn't seem to be a span tag.`,
 }
 ```
 
-Here, the spread pattern is `**_` because we don't care what other attributes the tag has, so we just
-ignore them with the wildcard pattern `_`.
+Here, the attribute spread pattern is `**_` because we don't care what other attributes the tag has, so
+we just ignore them with the wildcard pattern `_`.
 
 We can get more general than this: it's possible to match @emph {any kind of tag} by matching the tag
 name as a wildcard:
 
 ```
 @match $tag {
-    <_ **_> _ </> -> {Some HTML tag, don't know what.},
+    <_ **_> *_ </> -> {Some HTML tag, don't know what.},
     _ -> @raise `Not an HTML tag.`,
 }
 ```
@@ -625,7 +625,7 @@ variables. This allows us to transform tags in arbitrary ways:
 
 ```
 @match $tag {
-    <$tag_name **$attrs> $contents </> -> { ... },
+    <$tag_name **$attrs> *$contents </> -> { ... },
     _ -> @raise `Not an HTML tag.`,
 }
 ```
