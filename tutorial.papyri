@@ -240,8 +240,12 @@ Calling `@code` with triple-backticks to format inline code containing
 double-backticks: @code ``` `` `like this` `` ```.
 ````
 
-For documents with code in multiple languages, you can also call `@code` or `@code_block` with the
-explicit named `language` argument:
+For documents with code in multiple languages, you can select the language in a code listing by writing
+the language name on the first line of the code block, immediately after the opening backticks.#
+    @footnote {This can also be done to get syntax highlighting only in code listings, and not in inline
+        code. If you need inline code to have a different language, use `@code` with a named `language`
+        argument, like ``@code(language=`java`) `inline.java.code();` ``.}
+This overrides the "implicit" language declaration, if there is one.
 
 ````
 @implicit(language=`python`).
@@ -250,7 +254,7 @@ Most of the code in this document, like `[2 * x for x in range(5)]`, is going
 to be written in Python, but the following listing shows how that might be
 written in Java:
 
-@code_block(language=`java`) ```
+```java
     List<Integer> numbers = new ArrayList<>();
     for(int x = 0; x < 5; x++) {
         numbers.add(2 * x);
@@ -403,8 +407,9 @@ Additionally, there are three kinds of compound type:
     {`T dict` --- a dictionary of values, which can be created like `@dict(x=3, y=4).`. The keys in a
         dictionary are always strings.},
     {`T?` --- an optional value; either `T` or `none`.#
-        @footnote {This is not a "monadic" optional type --- `T??` is equivalent to `T?`, and `none?`
-            is equivalent to `none`.}},
+        @footnote {This is not a true "option type" --- if `none` is already assignable to `T` then
+            `T?` is just the same as `T`. In practice this means `T??`, `any?` and `none?` will be
+            simplified to `T?`, `any` and `none` respectively.}},
 ]
 
 Here `T` can be any type, primitive or otherwise; so for example, `str list` means a list of strings,
