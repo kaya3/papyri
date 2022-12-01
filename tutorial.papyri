@@ -587,9 +587,9 @@ and extract parts of them. Here's an example:
 @let(tag=<span id=`some_span`> ... </span>).
 
 @match $tag {
-    <span id=$id> *_ </span> -> {The id is "$id".},
-    <span> *_ </span> -> {No id found.},
-    _ -> @raise `Doesn't seem to be a span tag.`,
+    <span id=$id> _ </span> -> {The id is "$id".},
+    <span> _ </span> -> {No id found.},
+    _ -> @raise `Doesn't seem to be a <span> tag.`,
 }
 ```
 
@@ -599,9 +599,9 @@ also match tags with other attributes, we could use a spread pattern:
 
 ```
 @match $tag {
-    <span id=$id **_> *_ </span> -> {The id is "$id".},
-    <span **_> *_ </span> -> {No id found.},
-    _ -> @raise `Doesn't seem to be a span tag.`,
+    <span id=$id **_> _ </span> -> {The id is "$id".},
+    <span **_> _ </span> -> {No id found.},
+    _ -> @raise `Not a <span> tag.`,
 }
 ```
 
@@ -613,7 +613,7 @@ name as a wildcard:
 
 ```
 @match $tag {
-    <_ **_> *_ </> -> {Some HTML tag, don't know what.},
+    <_ **_> _ </> -> {Some HTML tag, don't know what.},
     _ -> @raise `Not an HTML tag.`,
 }
 ```
@@ -630,7 +630,7 @@ variables. This allows us to transform tags in arbitrary ways:
 
 ```
 @match $tag {
-    <$tag_name **$attrs> *$contents </> -> { ... },
+    <$tag_name **$attrs> $contents </> -> { ... },
     _ -> @raise `Not an HTML tag.`,
 }
 ```
