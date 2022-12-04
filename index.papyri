@@ -1,7 +1,8 @@
 @include `defs.lib`
 
-@page(title=`Papyri: a programmable markup language`, web_root=`./`)...
-@h1 {Papyri}
+@page(`Home`)...
+
+@h1 Papyri
 
 Papyri is a programmable markup language, which can be compiled to HTML.
 
@@ -27,7 +28,7 @@ source for this page} for a more substantial example, or read the @href(`tutoria
     url_rust_lang      = `https://www.rust-lang.org/`,
     url_papyri_rs      = `https://crates.io/crates/papyri-lang`,
     url_gh_discussions = `https://github.com/kaya3/papyri/discussions`,
-).
+)...
 
 A compiler for the Papyri markup language, written in @href($url_rust_lang) Rust, is available in the
 @href($url_papyri_rs) {@b {papyri-lang} crate}. If you have Rust then you can install the compiler with the
@@ -59,7 +60,7 @@ to see the command-line options.
     url_iosevka     = `https://be5invis.github.io/Iosevka/`,
     url_fontawesome = `https://fontawesome.com/free`,
     url_syntect     = `https://github.com/trishume/syntect`,
-).
+)...
 
 Papyri is developed by @href($url_me) {Andrew Kay}.
 

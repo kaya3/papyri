@@ -1,12 +1,13 @@
 @include `defs.lib`
-@implicit(language=`papyri`).
 
-@page(title=`Papyri: a programmable markup language`, web_root=`./`)...
+@implicit(language=`papyri`)
+@page(`Tutorial`)...
+
 @h1 {Papyri Tutorial}
 
-@href(`index.html`) Papyri is a programmable markup language. Being a "markup" language means that
-you can write your content mostly as normal, and you only need to use Papyri's syntax when you want
-to "mark up" things that should be presented differently.
+@href(`./`) Papyri is a programmable markup language. Being a "markup" language means that you can
+write your content mostly as normal, and you only need to use Papyri's syntax when you want to
+"mark up" things that should be presented differently.
 
 Papyri compiles to HTML, and almost all HTML syntax is also valid in Papyri:
 
@@ -108,12 +109,15 @@ This example introduces another piece of syntax: when used for a function's "con
 
 @h2 {Variables}
 
-You can declare variables using the special `@let` function. `@let` takes any number of named
-arguments, which become variables you can refer to as `$var_name`. The `@let` function doesn't take
-any contents, so we write a `.` for its contents.
+You can declare variables using the keyword `@let`. The syntax for `@let` is like a function: it takes
+any number of named arguments, which become variables you can refer to as `$var_name` within the
+"contents" of the `@let` expression.
+
+In practice, you usually want to use the `...` syntax for the "contents", so the new variables stay in
+scope for the remainder of the document (or the remainder of the current group or HTML tag).
 
 ```
-@let(position={Director of Redundancies Director}, company={Initech}).
+@let(position={Director of Redundancies Director}, company={Initech})...
 
 Please submit your TPS reports to the $position at $company.
 ```
@@ -122,7 +126,7 @@ Variables can appear within text, or can also be used as function arguments, inc
 argument:
 
 ```
-@let(url=`../index.html`, link_text={Back to the home page}).
+@let(url=`../index.html`, link_text={Back to the home page})...
 
 @href($url) $link_text
 ```
@@ -140,7 +144,7 @@ fixed and variable parts:
 String templates can also be used directly in HTML tags:
 
 ```
-@let(panel_kind=`info`).
+@let(panel_kind=`info`)...
 
 <div class="panel $panel_kind">
     You may find this information useful.
@@ -221,7 +225,7 @@ somewhere near the start of your Papyri source file, before any of the code you 
 the name of the language the code is written in:
 
 ```
-@implicit(language=`papyri`).
+@implicit(language=`papyri`)...
 ```
 
 For formatting program input or output (as opposed to source code), use the built-in functions `@kbd`
@@ -248,7 +252,7 @@ the language name on the first line of the code block, immediately after the ope
 This overrides the "implicit" language declaration, if there is one.
 
 ````
-@implicit(language=`python`).
+@implicit(language=`python`)...
 
 Most of the code in this document, like `[2 * x for x in range(5)]`, is going
 to be written in Python, but the following listing shows how that might be
@@ -301,8 +305,7 @@ useful ones by character substitutions:
 @let(
     nbsp_url=`https://en.wikipedia.org/wiki/Non-breaking_space`,
     word_joiner_url=`https://en.wikipedia.org/wiki/Word_joiner`,
-).
-[
+) [
     {The quote characters `'` and `"` will be converted automatically into "better-looking" Unicode
         quotes.#
         @footnote {The Papyri compiler will try to infer whether a quote should face left or right.
@@ -381,8 +384,7 @@ types:
 @let(
     block_level_url = `https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements`,
     inline_url = `https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements`,
-).
-[
+) [
     {`any` --- any type of value.},
     {`html` --- HTML content, including text and tags.},
     {`block` --- @href($block_level_url) {block-level} HTML content.},
@@ -510,7 +512,7 @@ extract parts out strings, lists or HTML tags. For example, we can use `@match` 
 depending on a number:
 
 ```
-@let(thing={cow}, amount=2).
+@let(thing={cow}, amount=2)...
 
 @match $amount {
     0 -> {No {$thing}s.},
@@ -584,7 +586,7 @@ Because values in Papyri can also represent HTML content, we can write patterns 
 and extract parts of them. Here's an example:
 
 ```
-@let(tag=<span id=`some_span`> ... </span>).
+@let(tag=<span id=`some_span`> ... </span>)...
 
 @match $tag {
     <span id=$id> _ </span> -> {The id is "$id".},
@@ -676,7 +678,7 @@ Therefore there are the following three built-in functions:
     {``@include `filename` `` --- includes `filename.papyri`, relative to the current file's path, into
         the current document; its HTML output is included, and its exports are declared in the current
         scope.#
-            @footnote {Papyri uses lexical scopes for functions and for replacements in `@match` rules.}},
+            @footnote {Papyri has lexical scopes for `@let` expressions, `@match` arms, and functions.}},
 ]
 
 
