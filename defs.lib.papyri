@@ -10,12 +10,12 @@
     </a>
 }
 
-@fn h1 $t: inline -> {
+@export @fn h1 $t: inline -> {
     <h1>@fa_anchor(`fa-link`, href="") $t</h1>
 }
 
-@fn h2 $t: inline -> {
-    @let(id=@unique_id $t)
+@export @fn h2 $t: inline -> {
+    @let(id=@str::unique_id $t)
     <h2 id=$id>@fa_anchor(`fa-hashtag`, href="\#$id") $t</h2>
 }
 
@@ -25,8 +25,8 @@
     {} -> [],
 }
 
-@fn get_nav($_link_title: str) $content: html -> {
-    @map(@fn $v -> @match $v {
+@fn get_nav($_link_title: str) $content: html ->
+    @nav_root_links::map(@fn $link -> @match $link {
         [$url, $title] -> {
             @href($url) $title
             @match $title {
@@ -34,11 +34,10 @@
                 _ -> .,
             }
         },
-    }) $nav_root_links
-}
+    }).
 
 @let(old_page=$page)...
-@fn page($_link_title: str) $content -> {
+@export @fn page($_link_title: str) $content -> {
     @old_page(
         title={Papyri: a programmable markup language},
         web_root=`./`,
@@ -50,19 +49,11 @@
     }
 }
 
-@fn shell $v: str -> {
+@export @fn shell $v: str -> {
     @code_block(language=.) $v
 }
 
-@fn info $v: html -> {
+@export @fn info $v: html -> {
     @fa_anchor(`fa-info-circle`).
     <div class="info panel">$v</div>
 }
-
-@export(
-    page=$page,
-    h1=$h1,
-    h2=$h2,
-    shell=$shell,
-    info=$info,
-).

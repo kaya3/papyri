@@ -1,5 +1,20 @@
 @include `defs.lib`
 
+@let(urls=@dict::new(
+    this_source    = `https://github.com/kaya3/papyri/blob/master/index.papyri`,
+    
+    rust_lang      = `https://www.rust-lang.org/`,
+    papyri_rs      = `https://crates.io/crates/papyri-lang`,
+    gh_discussions = `https://github.com/kaya3/papyri/discussions`,
+    
+    me             = `https://andrewkay.name`,
+    nibbleblog     = `https://github.com/syndicatefx/nibbleblog-themes`,
+    paulo_nunes    = `https://syndicatefx.com/`,
+    roboto         = `https://fonts.google.com/specimen/Roboto`,
+    iosevka        = `https://be5invis.github.io/Iosevka/`,
+    fontawesome    = `https://fontawesome.com/free`,
+    syntect        = `https://github.com/trishume/syntect`,
+).)
 @page(`Home`)...
 
 @h1 Papyri
@@ -18,21 +33,15 @@ as the language allows user-defined functions:
     @greet World
 ```
 
-You can @href(`https://github.com/kaya3/papyri/blob/master/index.papyri`) {click here to see the Papyri
-source for this page} for a more substantial example, or read the @href(`tutorial.html`) tutorial.
+You can @href($urls::this_source) {click here to see the Papyri source for this page} for a more
+substantial example, or read the @href(`tutorial.html`) tutorial.
 
 
 @h2 {Get Papyri}
 
-@let(
-    url_rust_lang      = `https://www.rust-lang.org/`,
-    url_papyri_rs      = `https://crates.io/crates/papyri-lang`,
-    url_gh_discussions = `https://github.com/kaya3/papyri/discussions`,
-)...
-
-A compiler for the Papyri markup language, written in @href($url_rust_lang) Rust, is available in the
-@href($url_papyri_rs) {@b {papyri-lang} crate}. If you have Rust then you can install the compiler with the
-following command:
+A compiler for the Papyri markup language, written in @href($urls::rust_lang) Rust, is available in the
+@href($urls::papyri_rs) {@b {papyri-lang} crate}. If you have Rust then you can install the compiler
+with the following command:
 
 @shell ```
     cargo install papyri-lang
@@ -46,34 +55,24 @@ to see the command-line options.
     syntax and semantics of the language, informed by usage, as development continues.
     
     If you do try it out and have ideas for improvements to the Papyri language or standard library,
-    feel free to suggest these in the @href($url_gh_discussions) {discussion forum}.
+    feel free to suggest these in the @href($urls::gh_discussions) {discussion forum}.
 }
 
 
 @h2 {Credits}
 
-@let(
-    url_me          = `https://andrewkay.name`,
-    url_nibbleblog  = `https://github.com/syndicatefx/nibbleblog-themes`,
-    url_paulo_nunes = `https://syndicatefx.com/`,
-    url_roboto      = `https://fonts.google.com/specimen/Roboto`,
-    url_iosevka     = `https://be5invis.github.io/Iosevka/`,
-    url_fontawesome = `https://fontawesome.com/free`,
-    url_syntect     = `https://github.com/trishume/syntect`,
-)...
+Papyri is developed by @href($urls::me) {Andrew Kay}.
 
-Papyri is developed by @href($url_me) {Andrew Kay}.
-
-The default theme (used on this page) is heavily inspired by the @href($url_nibbleblog) {'Echo' theme
-for Nibbleblog}, by @href($url_paulo_nunes) {Paulo Nunes}. This theme uses three open source fonts:
+The default theme (used on this page) is heavily inspired by the @href($urls::nibbleblog) {'Echo' theme
+for Nibbleblog}, by @href($urls::paulo_nunes) {Paulo Nunes}. This theme uses three open source fonts:
 
 [
-    {The main body text is Google's @href($url_roboto) Roboto.},
-    {The monospace font `Iosevka Papyri` is a custom build of @href($url_iosevka) Iosevka.#
+    {The main body text is Google's @href($urls::roboto) Roboto.},
+    {The monospace font `Iosevka Papyri` is a custom build of @href($urls::iosevka) Iosevka.#
     @footnote {Specifically, it is built using the `term` option to disable ligatures, and the
     character variants `cv01`, `cv04`, `cv08`, `cv12`, `cv14`, `cv17`, `cv19`, `cv25`, `cv36`,
     `cv39`, `cv43`, `cv44`, `cv47`, `cv49`, `cv51` and `cv52`.}},
-    {The left-margin icons are from the @href($url_fontawesome) {Font Awesome Free} project.},
+    {The left-margin icons are from the @href($urls::fontawesome) {Font Awesome Free} project.},
 ]
 
-The @b {papyri-rs} compiler uses the @href($url_syntect) syntect libary for syntax highlighting.
+The @b {papyri-rs} compiler uses the @href($urls::syntect) syntect libary for syntax highlighting.

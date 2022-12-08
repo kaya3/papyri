@@ -302,10 +302,10 @@ Nice-looking formatting often requires symbols that you can't easily type on a k
 dashes and fancy quote marks. When writing regular text in Papyri, you can get some of the most
 useful ones by character substitutions:
 
-@let(
-    nbsp_url=`https://en.wikipedia.org/wiki/Non-breaking_space`,
-    word_joiner_url=`https://en.wikipedia.org/wiki/Word_joiner`,
-) [
+@let(urls=@dict::new(
+    nbsp        = `https://en.wikipedia.org/wiki/Non-breaking_space`,
+    word_joiner = `https://en.wikipedia.org/wiki/Word_joiner`,
+).) [
     {The quote characters `'` and `"` will be converted automatically into "better-looking" Unicode
         quotes.#
         @footnote {The Papyri compiler will try to infer whether a quote should face left or right.
@@ -313,8 +313,8 @@ useful ones by character substitutions:
             makes a left-quote, and `{}"` always makes a right-quote.}},
     {Two dashes `--` make an en-dash, and three `---` make an em-dash.},
     {Three dots `...` become an ellipsis.},
-    {A tilde `~` makes a @href($nbsp_url) {non-breaking space}, and a pipe `|` makes a
-        "@href($word_joiner_url) {word joiner}" --- an invisible character which prevents text from
+    {A tilde `~` makes a @href($urls::nbsp) {non-breaking space}, and a pipe `|` makes a
+        "@href($urls::word_joiner) {word joiner}" --- an invisible character which prevents text from
         wrapping at that point.},
     {The arrows `<-`, `->` and `<->` become <-, -> and <->.},
     {Mathematical symbols: `<=`, `>=` and `!=` become <=, >= and !=, `+/-` becomes +/-.},
@@ -381,14 +381,14 @@ for.
 In the previous section we mentioned two types: `str` and `any`. Papyri has the following primitive
 types:
 
-@let(
-    block_level_url = `https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements`,
-    inline_url = `https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements`,
-) [
+@let(urls=@dict::new(
+    block_level = `https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements`,
+    inline      = `https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements`,
+).) [
     {`any` --- any type of value.},
     {`html` --- HTML content, including text and tags.},
-    {`block` --- @href($block_level_url) {block-level} HTML content.},
-    {`inline` --- @href($inline_url) inline HTML content.},
+    {`block` --- @href($urls::block_level) {block-level} HTML content.},
+    {`inline` --- @href($urls::inline) inline HTML content.},
     {`str` --- a string.},
     {`int` --- an integer, such as `5` or `-23`.#
         @footnote {Values must be in the signed 64-bit range, -2@sup{63}~<=~@i x~<=~2@sup{63}-1.}},
@@ -406,8 +406,8 @@ Additionally, there are three kinds of compound type:
 
 [
     {`T list` --- a list of values, written like `[1, 2, 3]` in square brackets with commas.},
-    {`T dict` --- a dictionary of values, which can be created like `@dict(x=3, y=4).`. The keys in a
-        dictionary are always strings.},
+    {`T dict` --- a dictionary of values, which can be created like `@dict::new(x=3, y=4).`. The keys
+        in a dictionary are always strings.},
     {`T?` --- an optional value; either `T` or `none`.#
         @footnote {This is not a true "option type" --- if `none` is already assignable to `T` then
             `T?` is just the same as `T`. In practice this means `T??`, `any?` and `none?` will be
@@ -422,10 +422,10 @@ Type annotations for parameters are used to check the arguments and @b coerce th
 types, where possible. For example, `int` and `bool` values can be coerced to `str`, and values of any
 type can be coerced to `html`, or to `block` (by wrapping inline content in a `<p>` tag if necessary).
 
-To explicitly convert from one type to another, you can use the `@block`, `@inline`, `@str`, `@int` and
-`@bool` functions, which are built-in. For example, `@str 123` will make the string `` `123` ``, or
-`@block {Foo bar}` will make the HTML tag `<p>Foo bar</p>`. These functions only perform the same
-coercions as are done for any other arguments, so e.g. ``@int `123` `` will not work.
+To explicitly convert from one type to another, you can use the `@block::from`, `@inline::from` and
+`@str::from` functions, which are built-in. For example, `@str::from 123` will make the string `` `123` ``,
+and `@block::from {Foo bar}` will make the HTML tag `<p>Foo bar</p>`. These functions only perform the
+same coercions as are done for any other arguments, so e.g. `@str::from <p>Foo bar</p>` will not work.
 
 
 @h2 {Optional Parameters and Default Values}
@@ -668,17 +668,25 @@ If you are writing a set of documents, there may be some functions or other decl
 to reuse across multiple documents. Or, if a single document is quite long you might want to split it
 across several source files while still compiling it to a single HTML file.
 
-Therefore there are the following three built-in functions:
+To export from the current file, use the `@export` keyword:
 
 [
     {`@export(name=$value).` --- exports `$value` with the name `name`.},
+    {`@export @let(name=$value)...` --- exports `$value` with the name `name`, and also makes `$name`
+        available in the enclosed scope.},
+    {`@export @fn foo() $v -> { ... }` --- declares a function `@foo` in the current scope, and also
+        exports it with the name `foo`.},
+]
+
+To import another Papyri source file:
+
+[
     {``@import `filename` `` --- imports `filename.papyri` as a library, relative to the current file's
         path. The exports from that file are returned as a dictionary; HTML output from that file, if
         there is any, is ignored.},
     {``@include `filename` `` --- includes `filename.papyri`, relative to the current file's path, into
-        the current document; its HTML output is included, and its exports are declared in the current
-        scope.#
-            @footnote {Papyri has lexical scopes for `@let` expressions, `@match` arms, and functions.}},
+        the current document; its HTML output is included, and its exports are included as variables in
+        the current scope.},
 ]
 
 
