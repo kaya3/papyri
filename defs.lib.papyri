@@ -41,9 +41,7 @@
     @old_page(
         title={Papyri: a programmable markup language},
         web_root=`./`,
-        before=<header>
-            <nav data_title="Navigation">@get_nav($_link_title) $content</nav>
-        </header>,
+        header=<nav data_title="Navigation">@get_nav($_link_title) $content</nav>,
     ) {
         $content
     }

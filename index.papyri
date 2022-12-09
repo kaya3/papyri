@@ -2,6 +2,7 @@
 
 @let(urls=@dict::new(
     this_source    = `https://github.com/kaya3/papyri/blob/master/index.papyri`,
+    tutorial       = `tutorial.html`,
     
     rust_lang      = `https://www.rust-lang.org/`,
     papyri_rs      = `https://crates.io/crates/papyri-lang`,
@@ -25,7 +26,7 @@ Papyri has a minimal syntax for common inline and block-level elements, and is p
 for mixing text with source code and code listings. Documents written in Papyri are also programmable,
 as the language allows user-defined functions:
 
-@code_block(language=`papyri`) ```
+```papyri
     @fn greet($class?: str) $name: str -> {
         <span class?=$class>Hello, @bold $name!</span>
     }
@@ -34,7 +35,7 @@ as the language allows user-defined functions:
 ```
 
 You can @href($urls::this_source) {click here to see the Papyri source for this page} for a more
-substantial example, or read the @href(`tutorial.html`) tutorial.
+substantial example, or read the @href($urls::tutorial) tutorial.
 
 
 @h2 {Get Papyri}

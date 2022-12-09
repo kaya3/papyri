@@ -92,6 +92,9 @@ article a[href]:hover { color: var(--blue); border-color: var(--blue); }
 :not(:not(h1, h2, h3, h4, h5, h6)) > a[href]:not(:hover) { color: inherit; }
 b, strong { font-weight: var(--font-weight-bold); }
 
+article hr { border: 0; height: 1px; background-color: var(--grey-6); }
+article header .metadata { font-size: var(--font-size-small); }
+
 sub, sup, a.footnote-ref { vertical-align: baseline; font-size: var(--font-size-smaller); position: relative; }
 sub { top: 0.5em; } sup, a.footnote-ref { bottom: 0.5em; }
 
@@ -107,7 +110,6 @@ h6 { font-size: var(--font-size-smallest); }
 
 img { display: block; }
 article > img, section > img, .panel > img { margin-left: auto; margin-right: auto; }
-
 p, ul, ol, hr, .panel { margin: var(--margin-block-vertical) 0; clear: both; }
 article > :first-child, section > :first-child, .panel > :first-child, article > .anchor:first-child + * { margin-top: 0; }
 article > :last-child, section > :last-child, .panel > :last-child { margin-bottom: 0; }

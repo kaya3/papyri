@@ -73,11 +73,12 @@ argument: the link URL, a string literal written in backticks (the `` ` `` symbo
 Some functions have @b {named arguments}:
 
 ```
-@image(alt=`Initech corporate logo`) `resources/logo.png`
+@image(alt={Initech corporate logo}) `resources/logo.png`
 ```
 
-For the `@image` function, both the `alt` argument and the contents are strings. Simple string values
-can also be written without backticks:
+For the `@image` function, both the `alt` argument and the contents are strings, although the `alt`
+argument here is written as text inside braces instead of backticks. Simple string values can also
+be written without backticks:
 
 ```
 @image(alt=Logo) `resources/logo.png`
@@ -95,7 +96,7 @@ code using the `@page` function. This function takes a named `title` argument, a
 the page contents:
 
 ```
-@page(title=`A Very Interesting Page`)...
+@page(title={A Very Interesting Page})...
 
 If there was anything here, then this page would be very interesting.
 ```
@@ -410,8 +411,8 @@ Additionally, there are three kinds of compound type:
         in a dictionary are always strings.},
     {`T?` --- an optional value; either `T` or `none`.#
         @footnote {This is not a true "option type" --- if `none` is already assignable to `T` then
-            `T?` is just the same as `T`. In practice this means `T??`, `any?` and `none?` will be
-            simplified to `T?`, `any` and `none` respectively.}},
+            `T?` is just the same as `T`. In practice this means types like `str??`, `any?` and `none?`
+            will be simplified to `str?`, `any` and `none` respectively.}},
 ]
 
 Here `T` can be any type, primitive or otherwise; so for example, `str list` means a list of strings,
