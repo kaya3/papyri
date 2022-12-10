@@ -261,17 +261,17 @@ pre.listing:hover .line[data-line-no]::before { display: inline-block; }
 	body > header li { line-height: var(--line-height-condensed); margin: var(--margin-block-vertical) 0; }
 	body > header nav > ul > li { font-weight: var(--font-weight-bold); }
 	body > header ul ul { margin: 0; padding-left: 2em; list-style-type: disc; font-weight: var(--font-weight-regular); }
-	body > article, body > footer { margin: 2em; margin-left: 20em; }
+	body > article, body > footer { margin: 2rem; margin-left: 20rem; }
 }
 
 @media only screen and (max-width: 980px) {
-	body { background: linear-gradient(to right, var(--grey-bg) 3.5em, white 3.5em); }
-	body > header, body > article { margin: 0em; margin-left: 3.5em; padding: 2em; background-color: white; }
+	body { background: linear-gradient(to right, var(--grey-bg) 3.5rem, white 3.5rem); }
+	body > header, body > article, body > footer { margin: 0; margin-left: 3.5rem; padding: 2rem; }
 	article, section { width: auto; max-width: var(--width-main); }
 	code, samp, kbd { white-space: pre-wrap; }
 }
 @media only screen and (not (max-width: 980px)) {
-	body > header { position: absolute; top: 0; left: 0; padding: 2em 1em; width: 13.5em; }
+	body > header { position: absolute; top: 0; left: 0; padding: 2rem 1rem; width: 13.5rem; }
 	body > header nav { margin: 1.5em 0; }
 }
 @media only print {
