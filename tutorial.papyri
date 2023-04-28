@@ -278,7 +278,7 @@ Papyri has two kinds of comments:
 ]
 
 Comments can be used to make remarks about the document, or to temporarily suppress parts of it from
-the output. Comments don't work inside string literals, but the @emph do work inside string templates.
+the output. Comments don't work inside string literals, but they @emph do work inside string templates.
 
 Comments are never preserved in the compiled HTML, even if they are HTML-style multiline comments.
 
